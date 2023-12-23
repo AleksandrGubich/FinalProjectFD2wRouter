@@ -82,7 +82,7 @@ body {
             .img-filling {
                 width: 720px;
                 height: 720px;
-                // background-image: url('./images/woman.png');
+                background: url('./images/woman.png') no-repeat;
             }
 
             >p {
@@ -111,15 +111,15 @@ body {
                 }
 
                 .lil1 {
-                    // background-image: url('./images/main1.png');
+                    background-image: url('./images/main1.png');
                 }
 
                 .lil2 {
-                    // background-image: url('./images/main2.png');
+                    background-image: url('./images/main2.png');
                 }
 
                 .lil3 {
-                    // background-image: url('./images/main3.png');
+                    background-image: url('./images/main3.png');
                 }
             }
         }
@@ -146,7 +146,7 @@ body {
 
             .range {
                 display: flex;
-                gap: 40px;
+                gap: 20px;
                 flex-wrap: wrap;
 
                 .range1 {
@@ -158,11 +158,15 @@ body {
 
                     .toBucket {
                         position: absolute;
+                        top: 10px;
+                        right: 10px;
                     }
 
                     .rangeimg1 {
-                        padding: 75px 79px 81px 77px;
-                        // background-image: url('./images/Asset1.png');
+                        width: 250px;
+                        height: 250px;
+                        padding: 60px;
+                        background: url('./images/Asset1.png') no-repeat center;
                     }
 
                     >p:first-of-type {
@@ -201,11 +205,15 @@ body {
 
                     .toBucket {
                         position: absolute;
+                        top: 10px;
+                        right: 10px;
                     }
 
                     .rangeimg2 {
-                        padding: 43px 55px 68px 55px;
-                        // background-image: url('./images/Asset2.png');
+                        width: 250px;
+                        height: 250px;
+                        padding: 60px;
+                        background: url('./images/Asset2.png') no-repeat center;
                     }
 
                     >p:first-of-type {
@@ -244,11 +252,15 @@ body {
 
                     .toBucket {
                         position: absolute;
+                        top: 10px;
+                        right: 10px;
                     }
 
                     .rangeimg3 {
-                        padding: 70px 70px 71px 70px;
-                        // background-image: url('./images/Asset3.png');
+                        width: 250px;
+                        height: 250px;
+                        padding: 60px;
+                        background: url('./images/Asset3.png') no-repeat center;
                     }
 
                     >p:first-of-type {
@@ -287,11 +299,15 @@ body {
 
                     .toBucket {
                         position: absolute;
+                        top: 10px;
+                        right: 10px;
                     }
 
                     .rangeimg4 {
-                        padding: 41px 59px 78px 60px;
-                        // background-image: url('./images/Asset4.png');
+                        width: 250px;
+                        height: 250px;
+                        padding: 60px;
+                        background: url('./images/Asset4.png') no-repeat center;
                     }
 
                     >p:first-of-type {
@@ -330,11 +346,15 @@ body {
                     
                     .toBucket {
                         position: absolute;
+                        top: 10px;
+                        right: 10px;
                     }
 
                     .rangeimg5 {
-                        padding: 71px;
-                        // background-image: url('./images/Asset5.png');
+                        width: 250px;
+                        height: 250px;
+                        padding: 60px;
+                        background: url('./images/Asset5.png') no-repeat center;
                     }
 
                     >p:first-of-type {
@@ -373,11 +393,15 @@ body {
 
                     .toBucket {
                         position: absolute;
+                        top: 10px;
+                        right: 10px;
                     }
 
                     .rangeimg6 {
-                        padding: 87px 120px 87px 127px;
-                        // background-image: url('./images/Asset6.png');
+                        width: 250px;
+                        height: 250px;
+                        padding: 60px;
+                        background: url('./images/Asset6.png') no-repeat center;
                     }
 
                     >p:first-of-type {

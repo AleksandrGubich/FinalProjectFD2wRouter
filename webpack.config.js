@@ -39,9 +39,9 @@ module.exports = {
             },
             {
                 test: /\.(png|jpe?g|gif|webp|svg)$/i,
-                type: 'asset-resource',
+                type: 'asset/resource',
                 generator: {
-                    filemane: 'images/[contenthash][ext]'
+                    filename: 'images/[contenthash][ext]'
                 }
             },
         ]
