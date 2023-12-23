@@ -1,5 +1,6 @@
 import {  Router } from "./router";
 import { AboutUsPage, BucketPage, MainPage } from "./pages";
+import './style.css'
 
 const appRouter = new Router([
   {

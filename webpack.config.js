@@ -38,12 +38,11 @@ module.exports = {
                 type: 'asset/source'
             },
             {
-                test: /\.(png|jpe?g|gif)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                    },
-                ],
+                test: /\.(png|jpe?g|gif|webp|svg)$/i,
+                type: 'asset-resource',
+                generator: {
+                    filemane: 'images/[contenthash][ext]'
+                }
             },
         ]
     },
