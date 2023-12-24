@@ -53,6 +53,9 @@ body {
     }
 }
 
+
+
+
 [slot=page] {
     max-width: 1160px;
     margin: 0 auto;
@@ -359,7 +362,7 @@ body {
                     justify-content: center;
                     align-items: center;
                     position: relative;
-                    
+
                     .toBucket {
                         position: absolute;
                         top: 10px;
@@ -455,6 +458,67 @@ body {
                     }
                 }
             }
+        }
+    }
+}
+
+
+
+.intro {
+    color: #7A2841;
+    text-align: center;
+    font-family: Playfair Display;
+    font-size: 100px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 110%;
+    letter-spacing: -2px;
+    margin: 0 0 80px 0;
+}
+
+.goods_filling {
+    display: flex;
+    gap: 40px;
+
+    .goods {
+        display: flex;
+        flex-direction: column;
+        padding: 40px;
+        background-color: white;
+        width: 800px;
+        height: 400px;
+        gap: 20px;
+    }
+
+    .price {
+        display: flex;
+        flex-direction: column;
+        padding: 40px;
+        background-color: white;
+        width: 220px;
+        height: 245px;
+
+        >p {
+            color: #7A2841;
+            font-family: Inter;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 140%;
+            letter-spacing: -0.7px;
+            margin: 10px 0;
+        }
+
+        >span {
+            color: #D0B0AB;
+            text-align: center;
+            font-family: Inter;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 140%;
+            letter-spacing: -0.7px;
+            margin: 60px 0;
         }
     }
 }
