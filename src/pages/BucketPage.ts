@@ -9,18 +9,18 @@ export class BucketPage extends AbstractPage {
     const content: DocumentFragment = templEl.content.cloneNode(true) as DocumentFragment;
 
     const goodsContainer: Element | null = content.querySelector(".goods");
-    const productsAmount: Element | null = content.querySelector(".products_sum");
     const priceSum: Element | null = content.querySelector(".price_sum");
 
     const updateLocalStorage = (items: { name: string; price: string; quantity?: number }[]) => {
       localStorage.setItem("items", JSON.stringify(items));
+      const updateProductsAmountEvent = new CustomEvent("updateProductsAmount");
+      document.dispatchEvent(updateProductsAmountEvent);
     };
 
     const updateCart = (items: { name: string; price: string; quantity?: number }[]) => {
       if (goodsContainer) {
         goodsContainer.innerHTML = "";
         let totalPrice = 0;
-        let totalQuantity = 0;
 
         items.forEach((item, index) => {
           const bucketItem: HTMLDivElement = document.createElement("div");
@@ -34,12 +34,7 @@ export class BucketPage extends AbstractPage {
           goodsContainer.appendChild(bucketItem);
 
           totalPrice += parseFloat(item.price.replace("$", "")) * (item.quantity || 1);
-          totalQuantity += item.quantity || 0;
         });
-
-        if (productsAmount) {
-          productsAmount.textContent = totalQuantity.toString();
-        }
 
         if (priceSum) {
           priceSum.textContent = `$${totalPrice.toFixed(2)}`;
@@ -63,6 +58,9 @@ export class BucketPage extends AbstractPage {
 
         updateLocalStorage(items);
         updateCart(items);
+
+        const updateProductsAmountEvent = new CustomEvent("updateProductsAmount");
+        document.dispatchEvent(updateProductsAmountEvent);
       }
     };
 
@@ -76,7 +74,16 @@ export class BucketPage extends AbstractPage {
       });
     }
 
-    // Отображение товаров при загрузке страницы
+    document.addEventListener("updateProductsAmount", () => {
+      const productsAmount: Element | null = document.querySelector('.products_sum');
+      if (productsAmount) {
+        let itemsInStorage: string | null = localStorage.getItem('items');
+        let items: { name: string; price: string; quantity?: number }[] = itemsInStorage ? JSON.parse(itemsInStorage) : [];
+        const totalQuantity: number = items.reduce((total: number, item: { quantity?: number }) => total + (item.quantity || 0), 0);
+        productsAmount.textContent = totalQuantity.toString();
+      }
+    });
+
     const itemsInStorage: string | null = localStorage.getItem("items");
     const items: { name: string; price: string; quantity?: number }[] = itemsInStorage
       ? JSON.parse(itemsInStorage)

@@ -46,7 +46,7 @@ export class MainPage extends AbstractPage { // Объявление класс�
   }
 
   private updateProductsAmount(): void { // Метод обновления количества товаров в шапке
-    const productsAmount: Element | null = document.querySelector('.products_amount'); // Поиск элемента для отображения количества товаров
+    const productsAmount: Element | null = document.querySelector('.products_sum'); // Поиск элемента для отображения количества товаров
     if (productsAmount) { // Если элемент найден
       let itemsInStorage: string | null = localStorage.getItem('items'); // Получение данных о товарах из localStorage
       let items: { name: string, price: string, quantity?: number }[] = itemsInStorage ? JSON.parse(itemsInStorage) : []; // Преобразование данных в массив товаров
