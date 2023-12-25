@@ -9,7 +9,7 @@ export class BucketPage extends AbstractPage {
     const renderItems = () => {
       const goodsContainer = templEl.content.querySelector('.goods');
       if (goodsContainer) {
-        goodsContainer.innerHTML = ''; // Очищаем контейнер товаров
+        goodsContainer.innerHTML = '';
 
         let itemsInStorage = localStorage.getItem('items');
         let items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
@@ -28,7 +28,6 @@ export class BucketPage extends AbstractPage {
           `;
           goodsContainer.appendChild(bucketItem);
 
-          // Обновляем общую стоимость и количество товаров
           totalPrice += parseFloat(item.price.replace('$', '')) * (item.quantity || 1);
           totalQuantity += item.quantity || 0;
         });
@@ -38,7 +37,6 @@ export class BucketPage extends AbstractPage {
           productsAmount.textContent = totalQuantity.toString();
         }
 
-        // Обновляем общую сумму и количество товаров в шапке корзины
         const productsSum = templEl.content.querySelector('.products_sum');
         const priceSum = templEl.content.querySelector('.price_sum');
 
@@ -47,14 +45,13 @@ export class BucketPage extends AbstractPage {
           priceSum.textContent = `$${totalPrice.toFixed(2)}`;
         }
 
-        // Обработчик удаления элемента
         goodsContainer.addEventListener('click', (event) => {
           if ((event.target as HTMLElement).classList.contains('remove-btn')) {
-            const indexToRemove = (event.target as HTMLElement).getAttribute('data-index');
-            if (indexToRemove !== null) {
-              items.splice(parseInt(indexToRemove), 1); // Удаляем элемент из массива
-              localStorage.setItem('items', JSON.stringify(items)); // Обновляем localStorage
-              renderItems(); // Перерисовываем список товаров
+            const indexToRemove = parseInt((event.target as HTMLElement).getAttribute('data-index') || '');
+            if (!isNaN(indexToRemove)) {
+              items.splice(indexToRemove, 1);
+              localStorage.setItem('items', JSON.stringify(items));
+              renderItems();
             }
           }
         });

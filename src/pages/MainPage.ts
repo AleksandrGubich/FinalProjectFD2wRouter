@@ -4,10 +4,17 @@ import template from './MainPage.html';
 const templEl = document.createElement('template');
 templEl.innerHTML = template;
 
-// Определение класса MainPage, который расширяет AbstractPage
 export class MainPage extends AbstractPage {
-  // Метод render возвращает HTMLElement или DocumentFragment
   render(): HTMLElement | DocumentFragment {
+    const updateProductsAmount = () => {
+      const itemsInStorage = localStorage.getItem('items');
+      const items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
+      const productsAmount = document.querySelector('.products_amount');
+      if (productsAmount) {
+        productsAmount.textContent = items.reduce((total: number, item: any) => total + (item.quantity || 0), 0).toString();
+      }
+    };
+
     // Клонируем содержимое шаблона
     const content = templEl.content.cloneNode(true) as DocumentFragment;
 
@@ -49,10 +56,7 @@ export class MainPage extends AbstractPage {
           localStorage.setItem('items', JSON.stringify(items));
 
           // Обновляем количество товаров в шапке
-          const productsAmount = document.querySelector('.products_amount');
-          if (productsAmount) {
-            productsAmount.textContent = items.length.toString();
-          }
+          updateProductsAmount();
         }
       });
     });
