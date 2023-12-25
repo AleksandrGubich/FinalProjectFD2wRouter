@@ -1,24 +1,24 @@
 import { AbstractPage } from "../router";
 import template from './BucketPage.html';
 
-const templEl = document.createElement('template');
+const templEl: HTMLTemplateElement = document.createElement('template');
 templEl.innerHTML = template;
 
 export class BucketPage extends AbstractPage {
   render(): HTMLElement | DocumentFragment {
-    const renderItems = () => {
-      const goodsContainer = templEl.content.querySelector('.goods');
+    const renderItems = (): void => {
+      const goodsContainer: Element | null = templEl.content.querySelector('.goods');
       if (goodsContainer) {
         goodsContainer.innerHTML = '';
 
-        let itemsInStorage = localStorage.getItem('items');
-        let items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
+        let itemsInStorage: string | null = localStorage.getItem('items');
+        let items: { name: string, price: string, quantity?: number }[] = itemsInStorage ? JSON.parse(itemsInStorage) : [];
 
-        let totalPrice = 0;
-        let totalQuantity = 0;
+        let totalPrice: number = 0;
+        let totalQuantity: number = 0;
 
-        items.forEach((item: any, index: number) => {
-          const bucketItem = document.createElement('div');
+        items.forEach((item: { name: string, price: string, quantity?: number }, index: number) => {
+          const bucketItem: HTMLDivElement = document.createElement('div');
           bucketItem.classList.add('bucket-item');
           bucketItem.innerHTML = `
             <p>${item.name}</p>
@@ -32,22 +32,23 @@ export class BucketPage extends AbstractPage {
           totalQuantity += item.quantity || 0;
         });
 
-        const productsAmount = document.querySelector('.products_amount');
+        const productsAmount: Element | null = document.querySelector('.products_amount');
         if (productsAmount) {
           productsAmount.textContent = totalQuantity.toString();
         }
 
-        const productsSum = templEl.content.querySelector('.products_sum');
-        const priceSum = templEl.content.querySelector('.price_sum');
+        const productsSum: Element | null = templEl.content.querySelector('.products_sum');
+        const priceSum: Element | null = templEl.content.querySelector('.price_sum');
 
         if (productsSum && priceSum) {
           productsSum.textContent = totalQuantity.toString();
           priceSum.textContent = `$${totalPrice.toFixed(2)}`;
         }
 
-        goodsContainer.addEventListener('click', (event) => {
-          if ((event.target as HTMLElement).classList.contains('remove-btn')) {
-            const indexToRemove = parseInt((event.target as HTMLElement).getAttribute('data-index') || '');
+        goodsContainer.addEventListener('click', (event: Event) => {
+          const target = event.target as HTMLElement;
+          if (target.classList.contains('remove-btn')) {
+            const indexToRemove: number = parseInt(target.getAttribute('data-index') || '');
             if (!isNaN(indexToRemove)) {
               items.splice(indexToRemove, 1);
               localStorage.setItem('items', JSON.stringify(items));

@@ -1,67 +1,57 @@
 import { AbstractPage } from "../router";
 import template from './MainPage.html';
 
-const templEl = document.createElement('template');
+const templEl: HTMLTemplateElement = document.createElement('template');
 templEl.innerHTML = template;
 
 export class MainPage extends AbstractPage {
   render(): HTMLElement | DocumentFragment {
-    const updateProductsAmount = () => {
-      const itemsInStorage = localStorage.getItem('items');
-      const items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
-      const productsAmount = document.querySelector('.products_amount');
-      if (productsAmount) {
-        productsAmount.textContent = items.reduce((total: number, item: any) => total + (item.quantity || 0), 0).toString();
-      }
-    };
+    const content: DocumentFragment = templEl.content.cloneNode(true) as DocumentFragment;
 
-    // Клонируем содержимое шаблона
-    const content = templEl.content.cloneNode(true) as DocumentFragment;
+    const toBucketButtons: NodeListOf<HTMLButtonElement> = content.querySelectorAll(".toBucket button");
 
-    // Получаем все кнопки с классом 'toBucket' в склонированном содержимом
-    const toBucketButtons = content.querySelectorAll(".toBucket button");
-
-    // Добавляем слушатель события 'click' для каждой кнопки
-    toBucketButtons.forEach(button => {
+    toBucketButtons.forEach((button: HTMLButtonElement) => {
       button.addEventListener('click', () => {
-        // Получаем информацию о товаре, используя ближайший родительский элемент с классом 'product'
-        const product = button.closest('.product');
+        const product: Element | null = button.closest('.product');
         if (product) {
-          const productName = product.querySelector('.name')?.textContent || '';
-          const productPrice = product.querySelector('.price')?.textContent || '';
+          const productName: string = product.querySelector('.name')?.textContent || '';
+          const productPrice: string = product.querySelector('.price')?.textContent || '';
 
-          // Создаем объект товара
-          const item = { name: productName, price: productPrice, quantity: 1 };
+          const item: { name: string, price: string, quantity: number } = { name: productName, price: productPrice, quantity: 1 };
 
-          // Получаем текущие данные из local storage или создаем новый массив
-          const itemsInStorage = localStorage.getItem('items');
-          const items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
+          let itemsInStorage: string | null = localStorage.getItem('items');
+          let items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
 
-          // Проверяем, есть ли такой товар уже в корзине
           const existingItemIndex = items.findIndex((item: any) => item.name === productName);
 
           if (existingItemIndex !== -1) {
-            // Если товар уже в корзине, увеличиваем его количество
             if (items[existingItemIndex].quantity !== undefined) {
               items[existingItemIndex].quantity += 1;
             } else {
               items[existingItemIndex].quantity = 1;
             }
           } else {
-            // Иначе добавляем новый товар в массив
             items.push(item);
           }
 
-          // Обновляем local storage
           localStorage.setItem('items', JSON.stringify(items));
-
-          // Обновляем количество товаров в шапке
-          updateProductsAmount();
+          this.updateProductsAmount(); // Обновляем количество товаров в шапке
         }
       });
     });
 
-    // Возвращаем склонированное содержимое в виде DocumentFragment
+    this.updateProductsAmount(); // Обновляем количество товаров в шапке при загрузке страницы
+
     return content;
+  }
+
+  private updateProductsAmount(): void {
+    const productsAmount: Element | null = document.querySelector('.products_amount');
+    if (productsAmount) {
+      let itemsInStorage: string | null = localStorage.getItem('items');
+      let items: { name: string, price: string, quantity?: number }[] = itemsInStorage ? JSON.parse(itemsInStorage) : [];
+      const totalQuantity: number = items.reduce((total: number, item: { quantity?: number }) => total + (item.quantity || 0), 0);
+      productsAmount.textContent = totalQuantity.toString();
+    }
   }
 }
