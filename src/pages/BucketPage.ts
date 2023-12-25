@@ -1,5 +1,5 @@
 import { AbstractPage } from "../router";
-import template from './BucketPage.html'
+import template from './BucketPage.html';
 
 const templEl = document.createElement('template');
 templEl.innerHTML = template;
@@ -11,20 +11,20 @@ export class BucketPage extends AbstractPage {
       if (goodsContainer) {
         goodsContainer.innerHTML = ''; // Очищаем контейнер товаров
 
-        const itemsInStorage = localStorage.getItem('items');
-        const items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
+        let itemsInStorage = localStorage.getItem('items');
+        let items = itemsInStorage ? JSON.parse(itemsInStorage) : [];
 
         let totalPrice = 0;
         let totalQuantity = 0;
 
-        items.forEach((item: any) => {
+        items.forEach((item: any, index: number) => {
           const bucketItem = document.createElement('div');
           bucketItem.classList.add('bucket-item');
           bucketItem.innerHTML = `
             <p>${item.name}</p>
             <p>${item.price}</p>
             <p>Quantity: ${item.quantity}</p>
-            <button class="remove-btn">Remove</button>
+            <button class="remove-btn" data-index="${index}">Remove</button>
           `;
           goodsContainer.appendChild(bucketItem);
 
@@ -46,23 +46,22 @@ export class BucketPage extends AbstractPage {
           productsSum.textContent = totalQuantity.toString();
           priceSum.textContent = `$${totalPrice.toFixed(2)}`;
         }
+
+        // Обработчик удаления элемента
+        goodsContainer.addEventListener('click', (event) => {
+          if ((event.target as HTMLElement).classList.contains('remove-btn')) {
+            const indexToRemove = (event.target as HTMLElement).getAttribute('data-index');
+            if (indexToRemove !== null) {
+              items.splice(parseInt(indexToRemove), 1); // Удаляем элемент из массива
+              localStorage.setItem('items', JSON.stringify(items)); // Обновляем localStorage
+              renderItems(); // Перерисовываем список товаров
+            }
+          }
+        });
       }
     };
 
     renderItems();
-
-    const goodsContainer = templEl.content.querySelector('.goods');
-    if (goodsContainer) {
-      goodsContainer.addEventListener('click', (event) => {
-        if ((event.target as HTMLElement).classList.contains('remove-btn')) {
-          const itemToRemove = (event.target as HTMLElement).closest('.bucket-item');
-          if (itemToRemove) {
-            itemToRemove.remove();
-            renderItems(); // Пересчитываем сумму и количество после удаления товара
-          }
-        }
-      });
-    }
 
     return templEl.content.cloneNode(true) as DocumentFragment;
   }
