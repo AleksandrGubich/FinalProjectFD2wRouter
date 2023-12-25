@@ -11,13 +11,13 @@ export class MainPage extends AbstractPage {
   // Метод render возвращает HTMLElement или DocumentFragment
   render(): HTMLElement | DocumentFragment {
     // Получаем все кнопки с классом 'toBucket'
-    const toBucketButtons = document.querySelectorAll('.toBucket button');
+    const toBucketButtons = templEl.content.querySelectorAll(".toBucket button");
 
     // Для каждой кнопки устанавливаем слушатель события 'click'
     toBucketButtons.forEach(button => {
       button.addEventListener('click', () => {
         // Получаем информацию о товаре
-        const product = button.closest('.range');
+        const product = button.closest('.product');
         if (product) {
           const productName = product.querySelector('.name')?.textContent || '';
           const productPrice = product.querySelector('.price')?.textContent || '';
@@ -59,24 +59,7 @@ export class MainPage extends AbstractPage {
       });
     });
 
-    // Находим контейнер товаров в корзине
-    const goodsContainer = document.querySelector('.goods');
-    if (goodsContainer) {
-      // Устанавливаем слушатель события 'click' для контейнера товаров в корзине
-      goodsContainer.addEventListener('click', (event) => {
-        // Проверяем, была ли нажата кнопка 'Remove' внутри элемента корзины
-        if ((event.target as HTMLElement).classList.contains('remove-btn')) {
-          // Находим элемент корзины, который нужно удалить
-          const itemToRemove = (event.target as HTMLElement).closest('.bucket-item');
-          if (itemToRemove) {
-            // Удаляем элемент корзины из DOM
-            itemToRemove.remove();
-          }
-        }
-      });
-    }
-
     // Клонируем содержимое шаблона и возвращаем его в виде DocumentFragment
-    return templEl.content.cloneNode(true) as DocumentFragment;
+    return templEl.content as DocumentFragment;
   }
 }

@@ -7,7 +7,7 @@ templEl.innerHTML = template;
 export class BucketPage extends AbstractPage {
   render(): HTMLElement | DocumentFragment {
     const renderItems = () => {
-      const goodsContainer = document.querySelector('.goods');
+      const goodsContainer = templEl.content.querySelector('.goods');
       if (goodsContainer) {
         goodsContainer.innerHTML = ''; // Очищаем контейнер товаров
 
@@ -35,9 +35,9 @@ export class BucketPage extends AbstractPage {
         });
 
         // Обновляем общее количество товаров и общую сумму
-        const productsAmount = document.querySelector('.products_amount');
-        const productsSum = document.querySelector('.products_sum');
-        const priceSum = document.querySelector('.price_sum');
+        const productsAmount = templEl.content.querySelector('.products_amount');
+        const productsSum = templEl.content.querySelector('.products_sum');
+        const priceSum = templEl.content.querySelector('.price_sum');
 
         if (productsAmount && productsSum && priceSum) {
           productsAmount.textContent = totalQuantity.toString();
@@ -49,27 +49,23 @@ export class BucketPage extends AbstractPage {
 
     renderItems(); // Вызываем функцию отображения товаров при загрузке страницы
 
-    // Устанавливаем слушатель для удаления товаров из корзины
+    // Находим контейнер товаров в корзине
     const goodsContainer = document.querySelector('.goods');
     if (goodsContainer) {
+      // Устанавливаем слушатель события 'click' для контейнера товаров в корзине
       goodsContainer.addEventListener('click', (event) => {
+        // Проверяем, была ли нажата кнопка 'Remove' внутри элемента корзины
         if ((event.target as HTMLElement).classList.contains('remove-btn')) {
-          const itemName = (event.target as HTMLElement).previousElementSibling?.textContent || '';
-          let items = localStorage.getItem('items');
-          if (items) {
-            const parsedItems: { name: string; price: string; quantity?: number }[] = JSON.parse(items);
-            // Убедимся, что items не null перед использованием метода filter
-            if (Array.isArray(parsedItems)) {
-              const updatedItems = parsedItems.filter((item) => item.name !== itemName);
-              localStorage.setItem('items', JSON.stringify(updatedItems));
-            }
+          // Находим элемент корзины, который нужно удалить
+          const itemToRemove = (event.target as HTMLElement).closest('.bucket-item');
+          if (itemToRemove) {
+            // Удаляем элемент корзины из DOM
+            itemToRemove.remove();
           }
-          renderItems();
-
         }
       });
     }
 
-    return templEl.content.cloneNode(true) as DocumentFragment;
+    return templEl.content as DocumentFragment;
   }
 }
