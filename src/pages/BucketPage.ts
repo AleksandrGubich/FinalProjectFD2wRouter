@@ -23,8 +23,8 @@ export class BucketPage extends AbstractPage {
           bucketItem.innerHTML = `
             <p>${item.name}</p>
             <p>${item.price}</p>
-            <p>Quantity: ${item.quantity}</p>
-            <button class="remove-btn" data-index="${index}">Remove</button>
+            <p>Количество: ${item.quantity}</p>
+            <button class="remove-btn" data-index="${index}">Удалить из корзины</button>
           `;
           goodsContainer.appendChild(bucketItem);
 
