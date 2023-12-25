@@ -74,7 +74,7 @@ export class BucketPage extends AbstractPage {
       });
     }
 
-    document.addEventListener("updateProductsAmount", () => {
+    const handleUpdateProductsAmount = () => {
       const productsAmount: Element | null = document.querySelector('.products_sum');
       if (productsAmount) {
         let itemsInStorage: string | null = localStorage.getItem('items');
@@ -82,7 +82,9 @@ export class BucketPage extends AbstractPage {
         const totalQuantity: number = items.reduce((total: number, item: { quantity?: number }) => total + (item.quantity || 0), 0);
         productsAmount.textContent = totalQuantity.toString();
       }
-    });
+    };
+
+    document.addEventListener("updateProductsAmount", handleUpdateProductsAmount);
 
     const itemsInStorage: string | null = localStorage.getItem("items");
     const items: { name: string; price: string; quantity?: number }[] = itemsInStorage
@@ -90,6 +92,9 @@ export class BucketPage extends AbstractPage {
       : [];
 
     updateCart(items);
+
+    // Обновляем количество товаров в шапке при загрузке страницы корзины
+    handleUpdateProductsAmount();
 
     return content;
   }
