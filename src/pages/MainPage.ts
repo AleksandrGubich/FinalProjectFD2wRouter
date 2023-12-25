@@ -54,6 +54,9 @@ export class MainPage extends AbstractPage {
           const productsAmount = document.querySelector('.products_amount');
           if (productsAmount) {
             productsAmount.textContent = items.length.toString();
+
+            // Добавим сохранение в Local Storage сразу после обновления в шапке
+            localStorage.setItem('items', JSON.stringify(items));
           }
         }
       });
